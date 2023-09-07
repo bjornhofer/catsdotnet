@@ -1,0 +1,133 @@
+<!-- upload.html -->
+<html>
+<head>
+    <title>CatService - Upload</title>
+    <style>
+        /* Add some CSS code to style the UI elements */
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin: 10px auto;
+            width: 300px;
+        }
+
+        input[type=file] {
+            display: none;
+        }
+
+        label {
+            display: block;
+            padding: 10px;
+            background-color: #f0f0f0;
+            border: 1px solid #ccc;
+            cursor: pointer;
+        }
+
+        button {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #00f;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        img {
+            display: block;
+            margin: 10px auto;
+            max-width: 300px;
+        }
+
+        .alert {
+            margin: 10px auto;
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .alert-success {
+            background-color: #0f0;
+            color: #000;
+        }
+
+        .alert-danger {
+            background-color: #f00;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>CatService - Upload</h1>
+
+    <form id="upload-form" method="post" enctype="multipart/form-data">
+        <label for="file">Select a picture file</label>
+        <input type="file" id="file" name="file" />
+        <button type="submit" id="upload-button">Upload</button>
+    </form>
+    <div id="message"></div>
+    <script>
+        // Add some JavaScript code to make the UI interactive and communicate with the server
+        // Get the UI elements by their IDs
+        var uploadForm = document.getElementById("upload-form");
+        var uploadButton = document.getElementById("upload-button");
+        var fileInput = document.getElementById("file");
+        var messageDiv = document.getElementById("message");
+
+        // Add an event listener to the upload form submission
+        uploadForm.addEventListener("submit", function(event) {
+            // Prevent the default behavior of the form
+            event.preventDefault();
+            
+            // Get the file from the file input
+            var file = fileInput.files[0];
+
+            // Check if the file is not null and has a valid content type
+            if (file != null && file.type.startsWith("image/")) {
+                // Create a new FormData object to send the file data
+                var formData = new FormData();
+                formData.append("file", file);
+
+                // Create a new XMLHttpRequest object to send the request to the server
+                var xhr = new XMLHttpRequest();
+
+                // Set the request method, URL, and async flag
+                xhr.open("POST", "/upload", true);
+
+                // Set the request header for the content type
+                xhr.setRequestHeader("Content-Type", "multipart/form-data");
+
+                // Set the event handler for the request load event
+                xhr.onload = function() {
+                    // Check if the request status is OK
+                    if (xhr.status == 200) {
+                        // Display a success message with the response text
+                        messageDiv.innerHTML = "<div class='alert alert-success'>" + xhr.responseText + "</div>";
+                    } else {
+                        // Display an error message with the response text
+                        messageDiv.innerHTML = "<div class='alert alert-danger'>" + xhr.responseText + "</div>";
+                    }
+                };
+
+                // Send the request with the form data
+                xhr.send(formData);
+                
+                // Disable the upload button while the request is in progress
+                uploadButton.disabled = true;
+
+                // Enable the upload button when the request is done
+                xhr.onloadend = function() {
+                    uploadButton.disabled = false;
+                };
+                
+            } else {
+                // Display an error message if the file is invalid
+                messageDiv.innerHTML = "<div class='alert alert-danger'>Invalid file. Please upload an image file.</div>";
+            }
+            
+        });
+    </script>
+</body>
+</html>

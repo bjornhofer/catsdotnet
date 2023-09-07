@@ -1,0 +1,98 @@
+<!-- view.html -->
+<html>
+<head>
+    <title>CatService - View</title>
+    <style>
+        /* Add some CSS code to style the UI elements */
+        h1 {
+            text-align: center;
+        }
+
+        form {
+            margin: 10px auto;
+            width: 300px;
+        }
+
+        button {
+            display: block;
+            margin-top: 10px;
+            padding: 10px;
+            background-color: #00f;
+            color: #fff;
+            border: none;
+            cursor: pointer;
+        }
+
+        img {
+            display: block;
+            margin: 10px auto;
+            max-width: 300px;
+        }
+
+        .alert {
+            margin: 10px auto;
+            width: 300px;
+            padding: 10px;
+            border-radius: 5px;
+        }
+
+        .alert-danger {
+            background-color: #f00;
+            color: #fff;
+        }
+    </style>
+</head>
+<body>
+    <h1>CatService - View</h1>
+
+    <form id="view-form" method="post">
+        <button type="submit" id="view-button">Get a random cat picture</button>
+    </form>
+    <div id="message"></div>
+    <img id="picture" src="" alt="" />
+    <script>
+        // Add some JavaScript code to make the UI interactive and communicate with the server
+        // Get the UI elements by their IDs
+        var viewForm = document.getElementById("view-form");
+        var viewButton = document.getElementById("view-button");
+        var messageDiv = document.getElementById("message");
+        var pictureImg = document.getElementById("picture");
+
+        // Add an event listener to the view form submission
+        viewForm.addEventListener("submit", function(event) {
+            // Prevent the default behavior of the form
+            event.preventDefault();
+
+            // Create a new XMLHttpRequest object to send the request to the server
+            var xhr = new XMLHttpRequest();
+
+            // Set the request method, URL, and async flag
+            xhr.open("GET", "/view", true);
+
+            // Set the event handler for the request load event
+            xhr.onload = function() {
+                // Check if the request status is OK
+                if (xhr.status == 200) {
+                    // Set the picture image source and alt attributes to the response text
+                    pictureImg.src = xhr.responseText;
+                    pictureImg.alt = "Cat picture";
+                } else {
+                    // Display an error message with the response text
+                    messageDiv.innerHTML = "<div class='alert alert-danger'>" + xhr.responseText + "</div>";
+                }
+            };
+
+            // Send the request
+            xhr.send();
+
+            // Disable the view button while the request is in progress
+            viewButton.disabled = true;
+
+            // Enable the view button when the request is done
+            xhr.onloadend = function() {
+                viewButton.disabled = false;
+            };
+        });
+    </script>
+</body>
+</html>

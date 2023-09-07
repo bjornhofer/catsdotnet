@@ -1,0 +1,11 @@
+# Use the official nginx image as the base image
+FROM nginx:alpine
+
+# Copy the upload.html file to the /usr/share/nginx/html directory
+COPY view.html /usr/share/nginx/html/index.html
+
+# Expose port 80 on the container
+EXPOSE 80
+
+# Use the default command to run nginx
+CMD ["nginx", "-g", "daemon off;"]
