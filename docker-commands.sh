@@ -1,8 +1,33 @@
-registry_url = "myregistry.azurecr.io"
-username = "myusername"
-password = "mypassword"
+# Description: This script builds and pushes the docker images to the Azure Container Registry
+# Usage: ./docker-commands.sh <registry_url> <username> <password>
 
-# Tags
+# Exit on any error
+set -e
+
+# Variables
+# Check if the user has provided the registry url, username and password
+if [ -z "$1" ]; then
+    echo "Using default registry"
+    registry_url = "myregistry.azurecr.io"
+else
+    registry_url = $1
+fi
+
+if [ -z "$2" ]; then
+    echo "Using default username"
+    username = "myusername"
+else
+    username = $2
+fi
+
+if [ -z "$3" ]; then
+    echo "Using default password"
+    password = "mypassword"
+else
+    password = $3
+fi
+
+# Build Tags for Docker Images
 upload_frontend = "cat-service-frontend-upload"
 upload_backend = "cat-service-backend-upload"
 view_frontend = "cat-service-frontend-view"
