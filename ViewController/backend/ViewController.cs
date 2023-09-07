@@ -48,6 +48,9 @@ namespace CatService
 
             // Get the blob name at the index
             string blobName = resultSegment.Results[index].Uri.Segments[3];
+
+            return blobName;
+
         }
     }
 }
