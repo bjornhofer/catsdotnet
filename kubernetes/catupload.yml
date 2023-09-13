@@ -1,0 +1,33 @@
+apiVersion: apps/v1
+kind: Deployment
+metadata:
+  name: catupoload
+  labels:
+    app: catupoload
+spec:
+  replicas: 1 # Specify the number of pods to run
+  selector:
+    matchLabels:
+      app: catupoload # Match pods with this label
+  template:
+    metadata:
+      labels:
+        app: catupoload # Assign this label to the pods
+    spec:
+      containers:
+      - name: uploadfrontend # Upload - Frontend
+        image: auvacatupload1234.azurecr.io/cat-service-frontend-upload:v1
+        ports:
+        - containerPort: 80 
+      - name: uploadbackend # Upload - Backend
+        image: auvacatupload1234.azurecr.io/cat-service-backend-upload:v1
+        ports:
+        - containerPort: 80 
+      - name: viewfrontend # View - Frontend
+        image: auvacatupload1234.azurecr.io/cat-service-frontend-view:v1
+        ports:
+        - containerPort: 80 
+      - name: viewbackend # View - Backend
+        image: auvacatupload1234.azurecr.io/cat-service-backend-view:v1
+        ports:
+        - containerPort: 80 
