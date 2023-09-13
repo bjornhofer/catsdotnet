@@ -14,10 +14,10 @@ namespace CatService
     public class ViewController : ControllerBase
     {
         // The connection string to the Azure Storage account
-        private const string connectionString = System.Environment.GetEnvironmentVariable("CONNECTION_STRING");
+        private static readonly string connectionString = System.Environment.GetEnvironmentVariable("CONNECTION_STRING");
 
         // The name of the container where the cat pictures are stored
-        private const string containerName = System.Environment.GetEnvironmentVariable("CONTAINER_NAME");
+        private static readonly string containerName = System.Environment.GetEnvironmentVariable("CONTAINER_NAME");
 
         // The constructor initializes the CloudBlobClient and the CloudBlobContainer objects
         public ViewController()

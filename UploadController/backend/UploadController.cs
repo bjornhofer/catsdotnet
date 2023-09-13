@@ -55,7 +55,7 @@ namespace CatService
                 await blob.UploadFromStreamAsync(file.OpenReadStream());
 
                 // Return a success message with the blob URL
-                return Ok($"Cat picture uploaded successfully. You can view it at {urlPrefix}{blobName}");
+                return Ok($"Cat picture uploaded successfully. You can view it at {blobName}");
             }
             else
             {
